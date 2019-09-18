@@ -1,6 +1,5 @@
 package petstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -13,7 +12,7 @@ import java.util.Objects;
 /**
  * @author Simon Greatrix on 18/09/2019.
  */
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "petType")
+@JsonTypeInfo(use = Id.NAME, include = As.EXISTING_PROPERTY, property = "petType")
 @JsonPropertyOrder(alphabetic = true)
 @JsonSubTypes({
     @Type(name = LatinNames.CAT, value = Pet¤Cat.class),
@@ -25,7 +24,7 @@ abstract public class Pet {
   @Schema(description = "Age of pet in years")
   private int age;
 
-  @Schema(description = "Pet's unique ID", required=true)
+  @Schema(description = "Pet's unique ID", required = true)
   private int id;
 
   @Schema(description = "Name of this pet")
@@ -33,6 +32,22 @@ abstract public class Pet {
 
   @Schema(description = "Weight of this pet in grams")
   private int weight;
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Pet)) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return age == pet.age &&
+        id == pet.id &&
+        weight == pet.weight &&
+        Objects.equals(name, pet.name);
+  }
 
 
   public int getAge() {
@@ -50,13 +65,17 @@ abstract public class Pet {
   }
 
 
-  // This property is set to be ignored, as Jackson adds it.
-  @JsonIgnore
   abstract public PetType getPetType();
 
 
   public int getWeight() {
     return weight;
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(age, id, name, weight);
   }
 
 
@@ -77,27 +96,5 @@ abstract public class Pet {
 
   public void setWeight(int weight) {
     this.weight = weight;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof Pet)) {
-      return false;
-    }
-    Pet pet = (Pet) o;
-    return age == pet.age &&
-        id == pet.id &&
-        weight == pet.weight &&
-        Objects.equals(name, pet.name);
-  }
-
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(age, id, name, weight);
   }
 }
