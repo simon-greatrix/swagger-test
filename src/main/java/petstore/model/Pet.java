@@ -1,5 +1,6 @@
 package petstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -12,7 +13,7 @@ import java.util.Objects;
 /**
  * @author Simon Greatrix on 18/09/2019.
  */
-@JsonTypeInfo(use = Id.NAME, include = As.EXISTING_PROPERTY, property = "petType")
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "petType")
 @JsonPropertyOrder(alphabetic = true)
 @JsonSubTypes({
     @Type(name = LatinNames.CAT, value = Pet¤Cat.class),
@@ -49,7 +50,8 @@ abstract public class Pet {
   }
 
 
-//  @JsonIgnore
+  // This property is set to be ignored, as Jackson adds it.
+  @JsonIgnore
   abstract public PetType getPetType();
 
 
