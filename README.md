@@ -46,12 +46,14 @@ The required "info" section was not picked up by the plugin. It was present as a
 
 The output was:
 
-`Exception in thread "Thread-0" java.lang.NullPointerException
+```
+Exception in thread "Thread-0" java.lang.NullPointerException
  	at io.swagger.codegen.v3.generators.html.StaticHtmlCodegen.preprocessOpenAPI(StaticHtmlCodegen.java:180)
  	at io.swagger.codegen.v3.DefaultGenerator.configureGeneratorProperties(DefaultGenerator.java:216)
  	at io.swagger.codegen.v3.DefaultGenerator.generate(DefaultGenerator.java:779)
  	at io.swagger.codegen.v3.cli.cmd.Generate.run(Generate.java:351)
- 	at java.base/java.lang.Thread.run(Thread.java:835)`
+ 	at java.base/java.lang.Thread.run(Thread.java:835)
+```
  	
 This error message was not particularly helpful in diagnosing the problem.
  
@@ -89,3 +91,69 @@ There does not appear to be any way to fix this. Swagger is ignoring its own ann
 -edit the file after each re-generation.
 
 
+
+## Fourth Problem : Generated client code does not compile
+
+**Tag**: P4
+
+### Scenario
+
+Having hand-edited the OpenAPI definition, we attempt to generate code from it.
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+    -i ../../swagger-test/swagger/pet-shop.json \
+    -o ~/tmp/swagger \
+    --api-package petstore.gen.api \
+    --model-package petstore.gen.model \
+    --invoker-package petstore.gen \
+    -l java
+```
+
+### Expected Result
+
+We expected the generated code to compile.
+
+### Actual Result
+
+The code failed to compile:
+
+```
+~/tmp/swagger/src/main/java/petstore/gen/model/Pet.java:17: error: package com.fasterxml.jackson.annotation does not exist
+ import com.fasterxml.jackson.annotation.JsonTypeId;
+                                        ^
+ ~/tmp/swagger/src/main/java/petstore/gen/JSON.java:74: error: cannot find symbol
+                       discriminatorValueByClass.put(Pet¤Cat.class, "felis catus");
+                                                     ^
+   symbol: class Pet¤Cat
+ ~/tmp/swagger/src/main/java/petstore/gen/JSON.java:75: error: cannot find symbol
+                       discriminatorValueByClass.put(Pet¤Dog.class, "canis lupus familiaris");
+                                                     ^
+   symbol: class Pet¤Dog
+ ~/tmp/swagger/src/main/java/petstore/gen/JSON.java:76: error: cannot find symbol
+                       discriminatorValueByClass.put(Pet¤Hamster.class, "cricetinae");
+                                                     ^
+   symbol: class Pet¤Hamster
+ ~/tmp/swagger/src/main/java/petstore/gen/JSON.java:57: error: cannot find symbol
+                     classByDiscriminatorValue.put("felis catus".toUpperCase(), Pet¤Cat.class);
+                                                                                ^
+   symbol: class Pet¤Cat
+ ~/tmp/swagger/src/main/java/petstore/gen/JSON.java:58: error: cannot find symbol
+                     classByDiscriminatorValue.put("canis lupus familiaris".toUpperCase(), Pet¤Dog.class);
+                                                                                           ^
+   symbol: class Pet¤Dog
+ ~/tmp/swagger/src/main/java/petstore/gen/JSON.java:59: error: cannot find symbol
+                     classByDiscriminatorValue.put("cricetinae".toUpperCase(), Pet¤Hamster.class);
+                                                                               ^
+   symbol: class Pet¤Hamster
+ ~/tmp/swagger/src/main/java/petstore/gen/model/Pet.java:90: error: incompatible types: String cannot be converted to PetTypeEnum
+     this.petType = this.getClass().getSimpleName();
+                                                 ^
+ 8 errors
+```
+
+### Analysis
+
+If we manually correct the generated specification, we can also manually correct the generated code. The code will compile if we correct the class names and
+ fix the "incompatible type" error.
+ 

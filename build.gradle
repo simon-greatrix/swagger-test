@@ -41,6 +41,14 @@ dependencies {
 
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+
+    // Further dependencies required by code-gen
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'io.gsonfire:gson-fire:1.8.3'
+    compile 'org.threeten:threetenbp:1.3.5'
 }
 
 resolve {
