@@ -1,5 +1,27 @@
 # Problems using Swagger
 
+## TL;DR
+
+* Every swagger tool we tried crashed with a NullPointerException on first use.
+
+* It was impossible to generate a correct OpenAPI specification from code.
+
+* It was impossible to generate code that would compile from a correct OpenAPI specification.
+
+* After compile errors were fixed by hand, the generated code's logic was never correct.
+
+* After compile and logic errors were fixed by hand, generated code could never be used to recover the OpenAPI specification.
+
+* Some OpenAPI annotations were ignored by the tools, or handled in unexpected ways.
+
+* There were no scenarios at all where the Swagger tools produced valid output. 
+
+* Generated documentation was never correct.
+
+
+
+## The actual scenarios
+
 This GIT repository holds a set of demonstrations which were encountered trying to use Swagger's tools.
 
 Each demonstration is marked with its own GIT tag.
@@ -35,6 +57,8 @@ The bug is triggered by the presence of a required field on the "Pet" class. It 
 
 We've worked around the crashing gradle plugin. An OpenAPI specification can now be generated via Gradle. We can then use Swagger's code-gen tool to generate
  some simple HTML documentation as a quick test.
+ 
+We are using 'V3.0.11' of code-gen.
 
 ### Expected Result
 We expected the OpenAPI specification to be usable. We expected code-gen not to crash.
@@ -81,7 +105,8 @@ We expected the discriminator mapping to be correct now it was explicitly specif
 
 ### Actual Result
 
-The explicit list of allowed values was added to the list of incorrect values, rather than over-riding it.
+The explicit list of allowed values was added to the list of incorrect values, rather than over-riding it. This is not the expected interpretation of
+ specifying an explicit list of allowed values. One expects the explicit list of allowed values to be equal to the list of allowed values.
 
 The sub-classes must have the correct value for the discriminator, but are defined as having any value.
 
@@ -247,6 +272,8 @@ The generated code would generate an equivalent OpenAPI specification.
 
 The generated code produces an empty OpenAPI specification. Again.
 
+Given the way the sub-types are defined, it appears that the resolver would crash anyway.
+
 
 ## Eighth Problem : Testing "JAX-RS" generated code
 
@@ -277,3 +304,12 @@ When the code was moved to the correct folder, it did not compile due to missing
 When the dependencies were added, it did not compile because the code was lacking import statements.
 
 When the specification was generated from the code, all mention of the sub-types of Pet were missing.
+
+
+
+## Ninth Problem : Documentation
+
+### Summary
+
+We were unable to find any form of generated documentation, or code, that correctly indicated that the discriminator for a sub-type was fixed.
+
