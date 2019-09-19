@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.junit.Test;
-import petstore.gen.JSON;
 
 /**
  * @author Simon Greatrix on 18/09/2019.
@@ -20,7 +19,7 @@ public class PetTest {
   @Test
   public void testJsonEncoding() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
-    Pet¤Cat cat = new Pet¤Cat();
+    petstore.original.model.Pet¤Cat cat = new Pet¤Cat();
     cat.setId(500);
     cat.setFavouriteFood("Fish");
     cat.setAge(2);
@@ -50,7 +49,11 @@ public class PetTest {
 
     String catJson = objectMapper.writeValueAsString(cat);
 
-    petstore.gen.model.Pet pet = new JSON().deserialize(catJson,petstore.gen.model.Pet.class);
-    System.out.println(pet);
+    petstore.gen.model.Pet genPet = objectMapper.readerFor(petstore.gen.model.Pet.class).readValue(catJson);
+    String catJson2 = objectMapper.writeValueAsString(genPet);
+
+    Pet pet = objectMapper.readerFor(Pet.class).readValue(catJson2);
+    assertEquals(cat, pet);
+
   }
 }

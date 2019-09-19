@@ -176,3 +176,55 @@ The generated code would generate an equivalent OpenAPI specification.
 
 The generated code produces an empty OpenAPI specification.
 
+
+## Sixth Problem : Testing "Spring" generated code
+
+### Scenario
+
+We used the code generator to create the "spring" flavour code:
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+    -i ../../swagger-test/swagger/pet-shop.json \
+    -o ~/tmp/swagger \
+    --api-package petstore.gen.api \
+    --model-package petstore.gen.model \
+    --invoker-package petstore.gen \
+    -l spring
+```
+
+### Expected result
+
+We expected the generated code to compile
+
+### Actual result
+
+The generated code failed to compile.
+
+```
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /Users/simongreatrix/tmp/swagger/src/main/java/petstore/gen/api/ApiResponseMessage.java:[3,33] package javax.xml.bind.annotation does not exist
+[ERROR] /Users/simongreatrix/tmp/swagger/src/main/java/petstore/gen/api/ApiResponseMessage.java:[6,27] package javax.xml.bind.annotation does not exist
+[ERROR] /Users/simongreatrix/tmp/swagger/src/main/java/petstore/gen/api/ApiResponseMessage.java:[45,6] cannot find symbol
+  symbol:   class XmlTransient
+  location: class petstore.gen.api.ApiResponseMessage
+[INFO] 3 errors
+```
+
+The generated code uses annotations for a previous major release, not the version 3 annotations.
+
+The generated code does not correctly use the discriminator property
+```
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = PetDog.class, name = "Pet¤Dog"),
+  @JsonSubTypes.Type(value = PetHamster.class, name = "Pet¤Hamster"),
+  @JsonSubTypes.Type(value = PetCat.class, name = "Pet¤Cat"),
+})
+``` 
+
+### Analysis
+
+The generated code can be fixed by hand. The name mappings can be corrected.
+
+
