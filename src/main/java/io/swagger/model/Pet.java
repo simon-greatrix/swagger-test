@@ -1,176 +1,149 @@
-package petstore.gen.model;
+package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
-/**
- * Pet
- */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-19T09:46:01.626578+01:00[Europe/London]")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "petType", visible = true )
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = PetDog.class, name = "Pet¤Dog"),
-  @JsonSubTypes.Type(value = PetHamster.class, name = "Pet¤Hamster"),
-  @JsonSubTypes.Type(value = PetCat.class, name = "Pet¤Cat"),
-})
+
+import io.swagger.annotations.*;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 public class Pet   {
-  @JsonProperty("age")
-  private Integer age = null;
+  private @Valid Integer age = null;
+  private @Valid Integer id = null;
+  private @Valid String name = null;
+public enum PetTypeEnum {
 
-  @JsonProperty("id")
-  private Integer id = null;
+    DOG(String.valueOf("DOG")), CAT(String.valueOf("CAT")), HAMSTER(String.valueOf("HAMSTER")), FELIS_CATUS(String.valueOf("felis catus")), CANIS_LUPUS_FAMILIARIS(String.valueOf("canis lupus familiaris")), CRICETINAE(String.valueOf("cricetinae"));
 
-  @JsonProperty("name")
-  private String name = null;
-
-  /**
-   * Gets or Sets petType
-   */
-  public enum PetTypeEnum {
-    DOG("DOG"),
-    
-    CAT("CAT"),
-    
-    HAMSTER("HAMSTER"),
-    
-    FELIS_CATUS("felis catus"),
-    
-    CANIS_LUPUS_FAMILIARIS("canis lupus familiaris"),
-    
-    CRICETINAE("cricetinae");
 
     private String value;
 
-    PetTypeEnum(String value) {
-      this.value = value;
+    PetTypeEnum (String v) {
+        value = v;
+    }
+
+    public String value() {
+        return value;
     }
 
     @Override
     @JsonValue
     public String toString() {
-      return String.valueOf(value);
+        return String.valueOf(value);
     }
 
     @JsonCreator
-    public static PetTypeEnum fromValue(String text) {
-      for (PetTypeEnum b : PetTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
+    public static PetTypeEnum fromValue(String v) {
+        for (PetTypeEnum b : PetTypeEnum.values()) {
+            if (String.valueOf(b.value).equals(v)) {
+                return b;
+            }
         }
-      }
-      return null;
+        return null;
     }
-  }
-  @JsonTypeId
-  private PetTypeEnum petType = null;
+}
+  private @Valid PetTypeEnum petType = null;
+  private @Valid Integer weight = null;
 
-  @JsonProperty("weight")
-  private Integer weight = null;
-
+  /**
+   * Age of pet in years
+   **/
   public Pet age(Integer age) {
     this.age = age;
     return this;
   }
 
-  /**
-   * Age of pet in years
-   * @return age
-  **/
+  
   @ApiModelProperty(value = "Age of pet in years")
+  @JsonProperty("age")
 
   public Integer getAge() {
     return age;
   }
-
   public void setAge(Integer age) {
     this.age = age;
   }
 
+  /**
+   * Pet&#x27;s unique ID
+   **/
   public Pet id(Integer id) {
     this.id = id;
     return this;
   }
 
-  /**
-   * Pet's unique ID
-   * @return id
-  **/
+  
   @ApiModelProperty(required = true, value = "Pet's unique ID")
+  @JsonProperty("id")
   @NotNull
 
   public Integer getId() {
     return id;
   }
-
   public void setId(Integer id) {
     this.id = id;
   }
 
+  /**
+   * Name of this pet
+   **/
   public Pet name(String name) {
     this.name = name;
     return this;
   }
 
-  /**
-   * Name of this pet
-   * @return name
-  **/
+  
   @ApiModelProperty(value = "Name of this pet")
+  @JsonProperty("name")
 
   public String getName() {
     return name;
   }
-
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   **/
   public Pet petType(PetTypeEnum petType) {
     this.petType = petType;
     return this;
   }
 
-  /**
-   * Get petType
-   * @return petType
-  **/
+  
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("petType")
   @NotNull
 
   public PetTypeEnum getPetType() {
     return petType;
   }
-
   public void setPetType(PetTypeEnum petType) {
     this.petType = petType;
   }
 
+  /**
+   * Weight of this pet in grams
+   **/
   public Pet weight(Integer weight) {
     this.weight = weight;
     return this;
   }
 
-  /**
-   * Weight of this pet in grams
-   * @return weight
-  **/
+  
   @ApiModelProperty(value = "Weight of this pet in grams")
+  @JsonProperty("weight")
 
   public Integer getWeight() {
     return weight;
   }
-
   public void setWeight(Integer weight) {
     this.weight = weight;
   }
@@ -185,11 +158,11 @@ public class Pet   {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(this.age, pet.age) &&
-        Objects.equals(this.id, pet.id) &&
-        Objects.equals(this.name, pet.name) &&
-        Objects.equals(this.petType, pet.petType) &&
-        Objects.equals(this.weight, pet.weight);
+    return Objects.equals(age, pet.age) &&
+        Objects.equals(id, pet.id) &&
+        Objects.equals(name, pet.name) &&
+        Objects.equals(petType, pet.petType) &&
+        Objects.equals(weight, pet.weight);
   }
 
   @Override

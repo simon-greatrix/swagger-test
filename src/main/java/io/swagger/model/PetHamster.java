@@ -1,40 +1,33 @@
-package petstore.gen.model;
+package io.swagger.model;
 
+import io.swagger.model.Pet;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
+
+import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import petstore.gen.model.Pet;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
-/**
- * PetHamster
- */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-19T09:46:01.626578+01:00[Europe/London]")
+
 public class PetHamster extends Pet  {
-  @JsonProperty("averageWheelTime")
-  private Double averageWheelTime = null;
+  private @Valid Double averageWheelTime = null;
 
+  /**
+   * How long does this hamster spend on its wheel in seconds?
+   **/
   public PetHamster averageWheelTime(Double averageWheelTime) {
     this.averageWheelTime = averageWheelTime;
     return this;
   }
 
-  /**
-   * How long does this hamster spend on its wheel in seconds?
-   * @return averageWheelTime
-  **/
+  
   @ApiModelProperty(value = "How long does this hamster spend on its wheel in seconds?")
+  @JsonProperty("averageWheelTime")
 
   public Double getAverageWheelTime() {
     return averageWheelTime;
   }
-
   public void setAverageWheelTime(Double averageWheelTime) {
     this.averageWheelTime = averageWheelTime;
   }
@@ -49,13 +42,12 @@ public class PetHamster extends Pet  {
       return false;
     }
     PetHamster pet¤Hamster = (PetHamster) o;
-    return Objects.equals(this.averageWheelTime, pet¤Hamster.averageWheelTime) &&
-        super.equals(o);
+    return Objects.equals(averageWheelTime, pet¤Hamster.averageWheelTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(averageWheelTime, super.hashCode());
+    return Objects.hash(averageWheelTime);
   }
 
   @Override

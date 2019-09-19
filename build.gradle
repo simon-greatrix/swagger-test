@@ -58,7 +58,7 @@ resolve {
     outputFormat = 'JSON'
     prettyPrint = 'TRUE'
     classpath = sourceSets.main.runtimeClasspath
-    resourcePackages = ['petstore.gen']
+    resourcePackages = ['petstore.gen','io.swagger']
     // resourcePackaged = ['petstore.original']
     outputPath = 'swagger'
 }

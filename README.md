@@ -179,6 +179,8 @@ The generated code produces an empty OpenAPI specification.
 
 ## Sixth Problem : Testing "Spring" generated code
 
+**Tag**: P6
+
 ### Scenario
 
 We used the code generator to create the "spring" flavour code:
@@ -228,3 +230,50 @@ The generated code does not correctly use the discriminator property
 The generated code can be fixed by hand. The name mappings can be corrected.
 
 
+## Seventh Problem : Once again, after fixing compile problems, does the generated code imply the same specification?
+
+**Tag**: P7
+
+### Scenario
+
+We fixed the compile problems and refactored the code to separate the original and generated code. We could then resolve both sets of code and compare the
+ results.
+ 
+### Expected results
+
+The generated code would generate an equivalent OpenAPI specification.
+
+### Actual result
+
+The generated code produces an empty OpenAPI specification. Again.
+
+
+## Eighth Problem : Testing "JAX-RS" generated code
+
+### Scenario
+
+We used the code generator to create the "jaxrs-spec" flavour code:
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+    -i ../../swagger-test/swagger/pet-shop.json \
+    -o ~/tmp/swagger \
+    --api-package petstore.gen.api \
+    --model-package petstore.gen.model \
+    --invoker-package petstore.gen \
+    -l jaxrs-spec
+```
+
+### Expected result
+
+We expected the generated code to compile. We expected the generated code to represent the schema. We expected the generated code to be as specified.
+
+### Actual result
+
+The generated code did not compile, as it was generated into the wrong folder.
+
+When the code was moved to the correct folder, it did not compile due to missing dependencies.
+
+When the dependencies were added, it did not compile because the code was lacking import statements.
+
+When the specification was generated from the code, all mention of the sub-types of Pet were missing.

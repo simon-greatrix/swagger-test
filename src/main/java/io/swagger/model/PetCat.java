@@ -1,40 +1,33 @@
-package petstore.gen.model;
+package io.swagger.model;
 
+import io.swagger.model.Pet;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
+
+import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import petstore.gen.model.Pet;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
-/**
- * PetCat
- */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-19T09:46:01.626578+01:00[Europe/London]")
+
 public class PetCat extends Pet  {
-  @JsonProperty("favouriteFood")
-  private String favouriteFood = null;
+  private @Valid String favouriteFood = null;
 
+  /**
+   * What is this cat&#x27;s favourite food?
+   **/
   public PetCat favouriteFood(String favouriteFood) {
     this.favouriteFood = favouriteFood;
     return this;
   }
 
-  /**
-   * What is this cat's favourite food?
-   * @return favouriteFood
-  **/
+  
   @ApiModelProperty(value = "What is this cat's favourite food?")
+  @JsonProperty("favouriteFood")
 
   public String getFavouriteFood() {
     return favouriteFood;
   }
-
   public void setFavouriteFood(String favouriteFood) {
     this.favouriteFood = favouriteFood;
   }
@@ -49,13 +42,12 @@ public class PetCat extends Pet  {
       return false;
     }
     PetCat pet¤Cat = (PetCat) o;
-    return Objects.equals(this.favouriteFood, pet¤Cat.favouriteFood) &&
-        super.equals(o);
+    return Objects.equals(favouriteFood, pet¤Cat.favouriteFood);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(favouriteFood, super.hashCode());
+    return Objects.hash(favouriteFood);
   }
 
   @Override
