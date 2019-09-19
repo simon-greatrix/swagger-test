@@ -52,10 +52,12 @@ dependencies {
 }
 
 resolve {
-    outputFileName = 'pet-shop'
+    outputFileName = 'pet-shop-gen'
+    // outputFileName = 'pet-shop-original'
     outputFormat = 'JSON'
     prettyPrint = 'TRUE'
     classpath = sourceSets.main.runtimeClasspath
-    resourcePackages = ['petstore']
+    resourcePackages = ['petstore.gen']
+    // resourcePackaged = ['petstore.original']
     outputPath = 'swagger'
 }

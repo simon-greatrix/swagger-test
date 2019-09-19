@@ -29,6 +29,7 @@ import java.io.IOException;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2019-09-19T08:29:28.996147+01:00[Europe/London]")
 
 public class Pet {
+
   @SerializedName("age")
   private Integer age = null;
 
@@ -80,6 +81,16 @@ public class Pet {
         return PetTypeEnum.fromValue(String.valueOf(value));
       }
     }
+
+    public static PetTypeEnum forClass(Class<? extends Pet> cl) {
+      switch( cl.getSimpleName() ) {
+        case "PetCat" : return FELIS_CATUS;
+        case "PetDog" : return CANIS_LUPUS_FAMILIARIS;
+        case "PetHamster" : return CRICETINAE;
+        default:
+          throw new IllegalArgumentException("Unknown kind of pet "+cl);
+      }
+    }
   }  @SerializedName("petType")
   private PetTypeEnum petType = null;
 
@@ -87,7 +98,7 @@ public class Pet {
   private Integer weight = null;
 
   public Pet() {
-    this.petType = this.getClass().getSimpleName();
+    this.petType = PetTypeEnum.forClass(this.getClass());
   }
   public Pet age(Integer age) {
     this.age = age;

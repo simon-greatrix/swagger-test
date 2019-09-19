@@ -1,4 +1,4 @@
-package petstore.model;
+package petstore.original.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

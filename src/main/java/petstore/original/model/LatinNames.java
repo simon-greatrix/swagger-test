@@ -1,4 +1,4 @@
-package petstore.model;
+package petstore.original.model;
 
 /**
  * @author Simon Greatrix on 18/09/2019.

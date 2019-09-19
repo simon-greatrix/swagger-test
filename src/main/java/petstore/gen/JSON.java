@@ -54,9 +54,9 @@ public class JSON {
             @Override
             public Class<? extends Pet> getClassForElement(JsonElement readElement) {
                 Map<String, Class<? extends Pet>> classByDiscriminatorValue = new HashMap<>();
-                    classByDiscriminatorValue.put("felis catus".toUpperCase(), Pet¤Cat.class);
-                    classByDiscriminatorValue.put("canis lupus familiaris".toUpperCase(), Pet¤Dog.class);
-                    classByDiscriminatorValue.put("cricetinae".toUpperCase(), Pet¤Hamster.class);
+                    classByDiscriminatorValue.put("felis catus".toUpperCase(), PetCat.class);
+                    classByDiscriminatorValue.put("canis lupus familiaris".toUpperCase(), PetDog.class);
+                    classByDiscriminatorValue.put("cricetinae".toUpperCase(), PetHamster.class);
                                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "petType"));
@@ -71,9 +71,9 @@ public class JSON {
               @Override
               public void postSerialize(JsonElement result, Pet src, Gson gson) {
                   Map<Class<? extends Pet>, String> discriminatorValueByClass = new HashMap<>();
-                      discriminatorValueByClass.put(Pet¤Cat.class, "felis catus");
-                      discriminatorValueByClass.put(Pet¤Dog.class, "canis lupus familiaris");
-                      discriminatorValueByClass.put(Pet¤Hamster.class, "cricetinae");
+                      discriminatorValueByClass.put(PetCat.class, "felis catus");
+                      discriminatorValueByClass.put(PetDog.class, "canis lupus familiaris");
+                      discriminatorValueByClass.put(PetHamster.class, "cricetinae");
                                     if(result instanceof JsonObject)
                   {
                       if(!((JsonObject) result).has("petType"))

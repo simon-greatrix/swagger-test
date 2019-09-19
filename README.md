@@ -157,3 +157,22 @@ The code failed to compile:
 If we manually correct the generated specification, we can also manually correct the generated code. The code will compile if we correct the class names and
  fix the "incompatible type" error.
  
+
+
+## Fifth Problem : After fixing compile problems, does the generated code imply the same specification?
+
+**Tag**: P5
+
+### Scenario
+
+We fixed the compile problems and refactored the code to separate the original and generated code. We could then resolve both sets of code and compare the
+ results.
+ 
+### Expected results
+
+The generated code would generate an equivalent OpenAPI specification.
+
+### Actual result
+
+The generated code produces an empty OpenAPI specification.
+

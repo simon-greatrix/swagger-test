@@ -1,4 +1,4 @@
-package petstore.api;
+package petstore.original.api;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -9,8 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import petstore.model.Pet;
-import petstore.model.Pet¤Cat;
+import petstore.original.model.Pet;
+import petstore.original.model.Pet¤Cat;
 
 /**
  * @author Simon Greatrix on 18/09/2019.

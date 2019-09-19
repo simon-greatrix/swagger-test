@@ -1,4 +1,4 @@
-package petstore.model;
+package petstore.original.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;

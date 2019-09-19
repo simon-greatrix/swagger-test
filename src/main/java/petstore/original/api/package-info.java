@@ -9,7 +9,7 @@
       title="Pet Store Demo", version = "1.0"
     )
 )
-package petstore.api;
+package petstore.original.api;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;

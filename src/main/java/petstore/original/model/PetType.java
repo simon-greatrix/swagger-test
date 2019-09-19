@@ -1,4 +1,4 @@
-package petstore.model;
+package petstore.original.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
