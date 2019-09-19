@@ -4,7 +4,7 @@ This GIT repository holds a set of demonstrations which were encountered trying 
 
 Each demonstration is marked with its own GIT tag.
 
-## First problem
+## First problem : Plugin crashes
 
 **Tag** : P1
 
@@ -27,7 +27,7 @@ Swagger plug in crashes with no error message, and the build fails.
 The bug is triggered by the presence of a required field on the "Pet" class. It can be worked around by making the type property explicit and using Jackson's
  EXISTING_PROPERTY type info instead of PROPERTY.
  
-## Second Problem
+## Second Problem : Code-gen crashes
 
 **Tag**: P2
 
@@ -56,5 +56,36 @@ The output was:
 This error message was not particularly helpful in diagnosing the problem.
  
 ### Analysis
-This bug can be worked around by associating the @OpenAPIDefinition annotation with a class, rather than a package.  
+This bug can be worked around by associating the @OpenAPIDefinition annotation with a class, rather than a package. 
+
+
+## Third Problem : Pet type is incorrectly defined
+
+**Tag**: P3
+
+### Scenario
+
+By experimentation we've discovered that although the @OpenAPIDefinition can be applied to packages, it doesn't work if you do that, so we applied it to a
+ class. We try generating the simple HTML documentation again. We got documentation but the way the "petType" field was described was clearly wrong.
+ 
+* The field is a discriminator, but was flagged as optional. The OpenAPI specification says discriminators must be required fields.
+* The values of the discriminator had not been picked up. We added an explicit discriminator mapping, and a explicit set of allowed values.
+
+We generated the HTML again expecting the issue to be resolved.
+
+### Expected Result
+
+We expected the discriminator mapping to be correct now it was explicitly specified through Swagger annotations.
+
+### Actual Result
+
+The explicit list of allowed values was added to the list of incorrect values, rather than over-riding it.
+
+The sub-classes must have the correct value for the discriminator, but are defined as having any value.
+
+### Analysis
+
+There does not appear to be any way to fix this. Swagger is ignoring its own annotations and adding incorrect values to the enumeration. We resolve to hand
+-edit the file after each re-generation.
+
 

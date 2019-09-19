@@ -6,18 +6,26 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 
 /**
  * @author Simon Greatrix on 18/09/2019.
  */
+@Schema(
+    discriminatorMapping = {
+        @DiscriminatorMapping(value=LatinNames.CAT, schema=Pet¤Cat.class),
+        @DiscriminatorMapping(value=LatinNames.DOG, schema=Pet¤Dog.class),
+        @DiscriminatorMapping(value=LatinNames.HAMSTER, schema=Pet¤Hamster.class),
+    }
+)
 @JsonTypeInfo(use = Id.NAME, include = As.EXISTING_PROPERTY, property = "petType")
 @JsonPropertyOrder(alphabetic = true)
 @JsonSubTypes({
     @Type(name = LatinNames.CAT, value = Pet¤Cat.class),
     @Type(name = LatinNames.DOG, value = Pet¤Dog.class),
-    @Type(name = LatinNames.HAMSTER, value = Pet¤Cat.class)
+    @Type(name = LatinNames.HAMSTER, value = Pet¤Hamster.class)
 })
 abstract public class Pet {
 
@@ -65,6 +73,14 @@ abstract public class Pet {
   }
 
 
+  @Schema(
+      required = true,
+      allowableValues = {
+        LatinNames.CAT,
+        LatinNames.DOG,
+        LatinNames.HAMSTER
+      }
+  )
   abstract public PetType getPetType();
 
 
